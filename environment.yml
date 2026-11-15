@@ -1,0 +1,29 @@
+name: pyrafault
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - pyarrow
+  - pillow
+  - pyyaml
+  - scikit-learn
+  # I10: pyrafault/tissue.py uses remove_small_objects(max_size=...), which requires
+  # skimage >= 0.26 (the max_size parameter and the min_size deprecation both landed
+  # in 0.26; on an older skimage, max_size is not a recognised keyword). Pinned here
+  # too, not only in environment.lock.yml, so a fresh (non-lock) solve cannot land on
+  # a pre-0.26 skimage and silently break the tissue-mask build.
+  - scikit-image>=0.26
+  - scipy
+  - matplotlib
+  - pytest
+  - tqdm
+  - pip
+  - pip:
+      - openslide-python
+      - openslide-bin
+      - opencv-python-headless
+      - torch
+      - timm
+      - transformers
+      - huggingface_hub

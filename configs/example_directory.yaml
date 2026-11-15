@@ -1,0 +1,144 @@
+# Example config for `source.mode: directory` — a cohort that is NOT a GDC cart
+# download (a lab's own scan archive, a different repository's export, ...).
+#
+# This file is a complete, working config: copy it, then edit the four values
+# marked EDIT below plus the split sizes in `splits:`. Every other value mirrors
+# `configs/example10.yaml`, whose parameters are the ones the released benchmark was
+# built with; leave that file alone and start a new cohort from a copy of this one.
+#
+# See README.md -> "If your slides are not from GDC" for the full explanation of
+# `case_id_from` and directory mode's integrity caveat.
+
+seed: 20260812
+pipeline_version: "v1"
+extraction_version: "v1"
+
+source:
+  mode: directory                # EDIT: selects this adapter instead of gdc
+  slides_dir: /path/to/your/slides      # EDIT: root directory to walk, recursively
+  pattern: "**/*.svs"                    # EDIT: glob for OpenSlide-readable files,
+                                          # relative to slides_dir (e.g. "*.svs",
+                                          # "**/*.ndpi"). Zero matches is an error.
+  # EDIT: how to derive case_id from each discovered slide's slide_id (the
+  # filename with its extension stripped). Splits are case-level, so getting
+  # this wrong silently mixes one patient across dev/test — pick carefully.
+  # Exactly one of these three forms:
+  #
+  #   case_id_from: "slide_id"
+  #     One slide per patient; case_id is just a copy of slide_id.
+  #
+  #   case_id_from: "^(TCGA-[^-]+-[^-]+)"
+  #     A regex with exactly one capture group, applied to slide_id. A slide_id
+  #     the pattern does not match is a hard error naming that slide — never a
+  #     silent fallback to slide_id.
+  #
+  #   case_id_from: "case_map.csv"
+  #     A path to a CSV with `slide_id,case_id` columns, one row per discovered
+  #     slide. A discovered slide missing from the CSV is a hard error naming it.
+  case_id_from: "slide_id"
+  #
+  # NOTE on integrity: directory mode has no external source of truth to verify
+  # against (unlike gdc mode's MD5-against-manifest audit). It records
+  # `sha256_local` and `file_size` computed from the files themselves — a
+  # baseline for detecting later change to a file, not a check against a
+  # publisher's record. Treat it as weaker assurance than gdc mode's, not
+  # equivalent.
+
+slide:
+  require_mpp: true
+  max_mpp_l0: 0.5
+
+thumbnail:
+  target_mpp: 8.0
+
+tissue:
+  method: hsv_saturation_otsu
+  sat_floor: 0.08
+  gray_max: 235
+  close_radius_um: 64
+  open_radius_um: 32
+  min_component_area_um2: 250000
+
+context:
+  target_mpp: 2.0
+  size_px: 2048
+  stride_frac: 0.25
+  min_tissue_fraction: 0.50
+  num_per_slide: 30
+  selection: spatial_fps
+
+query:
+  target_mpp: 0.5
+  size_px: 512
+  stride_frac: 1.0
+  boundary_margin_frac: 1.0
+  min_tissue_fraction: 0.80
+  num_per_context: 5
+
+quality:
+  blur_var_flag: 20.0
+  blur_var_exclude: 5.0
+  mean_intensity_flag: [25, 235]
+  mean_intensity_exclude: [10, 250]
+  pen_mark_flag_frac: 0.02
+
+visual_sampling:
+  enabled: true
+  extractor: uni
+  fallback_extractor: dinov2
+  strategy: cluster_stratified
+  n_clusters: 5
+  self_similarity_k: 16
+
+features:
+  uni:    {hf_repo: MahmoodLab/UNI,       timm_model: "hf-hub:MahmoodLab/UNI", input_size: 224}
+  dinov2: {hf_repo: facebook/dinov2-base, input_size: 224}
+  batch_size: 64
+  device: auto
+
+faults:
+  clean: true
+  adjacent_drift:
+    enabled: true
+    normalize_by: query_side
+    severity_bands: {small: [0.25, 0.75], medium: [0.75, 2.0], large: [2.0, 6.0]}
+    balance: stratified
+    max_theta_retries: 32
+  random_same_context:
+    enabled: true
+    max_iou_with_true: 0.0
+    min_center_dist_query_widths: 1.5
+  hard_same_slide:
+    enabled: true
+    pool: context
+    max_iou_with_true: 0.0
+    min_center_dist_query_widths: 1.5
+    top_k: 1
+  out_of_context:
+    enabled: false
+
+splits:
+  level: case
+  # EDIT: fractions are the safer choice here since a fresh cohort's case count
+  # usually isn't known until stage 01 runs; switch to absolute integer counts
+  # once it is. Either form must satisfy splits.min_contexts_per_slide below —
+  # if no assignment does, stage 03 fails and prints the per-slide counts.
+  dev: 0.6
+  calibration: 0.2
+  test: 0.2
+  min_contexts_per_slide: {test: 15, calibration: 15}
+  max_reshuffle_attempts: 1000
+
+storage:
+  canonical: metadata_first
+  materialize_pilot_png: true
+  large_scale_patch_format: sharded_tar
+
+coordinates:
+  canonical_frame: level0
+
+qc:
+  overlays_per_slide: 25
+  verify_source_md5: true
+  verify_materialized_hash: true
+  reconstruction_sample_frac: 0.05

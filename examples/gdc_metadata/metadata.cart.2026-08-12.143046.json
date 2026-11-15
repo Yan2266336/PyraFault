@@ -1,0 +1,162 @@
+[
+  {
+    "file_id": "005f3f8d-92e5-42e7-bfe4-9f741e30aa9e",
+    "file_name": "TCGA-B5-A1MW-01Z-00-DX1.b25dd862-1a98-472e-a4d6-53c622e8b5fb.svs",
+    "md5sum": "ee10ddd19a75457667f98035375be03b",
+    "file_size": 1740758368,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "e2b48d0d-57ca-400b-8598-55ef132e350e",
+        "entity_submitter_id": "TCGA-B5-A1MW-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "007b7ccb-0aea-446c-ad8a-a373da529f25",
+    "file_name": "TCGA-2F-A9KQ-01Z-00-DX1.1C8CB2DD-5CC6-4E99-A0F9-32A0F598F5F9.svs",
+    "md5sum": "1b5fbdcd521879ad479cbab08b45b152",
+    "file_size": 1558387514,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "25eaf3f9-c364-423c-aaae-925e7b393afc",
+        "entity_submitter_id": "TCGA-2F-A9KQ-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "00d7bab3-386e-413a-a3be-e1ec312b1754",
+    "file_name": "TCGA-56-8503-01Z-00-DX1.87FEB654-FC88-4CDA-8F52-ACF0D9A19191.svs",
+    "md5sum": "4c6b87ffd16354db5295cf3d03d00f40",
+    "file_size": 243455990,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "ac274a44-de25-4bc6-8699-472576892c62",
+        "entity_submitter_id": "TCGA-56-8503-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "00efe162-75c1-4451-814c-1576cf6856f8",
+    "file_name": "TCGA-86-6562-01Z-00-DX1.5dea3015-e606-4837-9f99-ac14f0aa091b.svs",
+    "md5sum": "22f552c1d94c720e6c64bcbc8ddd9b29",
+    "file_size": 487742049,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "dcd066ba-5894-453e-b1da-82092858c3db",
+        "entity_submitter_id": "TCGA-86-6562-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "01385121-38e7-4e00-9ef2-03a98b97e35b",
+    "file_name": "TCGA-B5-A1MR-01Z-00-DX1.A6906654-011F-4BD3-9A6C-365B3F0706BB.svs",
+    "md5sum": "2fa29f551f53c5803b04944b52820572",
+    "file_size": 1576596399,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "02af18ee-ab8e-4ac3-b22e-dec80c201058",
+        "entity_submitter_id": "TCGA-B5-A1MR-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "0142f559-a65b-4dfa-aad9-cd4f22b86f46",
+    "file_name": "TCGA-VM-A8CF-01Z-00-DX9.704D20F4-2DDD-42FB-8AD6-97C2BCA68C83.svs",
+    "md5sum": "528ee1f6279931d6a9a69e66f53dab13",
+    "file_size": 1022458051,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "0073a136-d5f4-4fd6-88f9-711768f2abc6",
+        "entity_submitter_id": "TCGA-VM-A8CF-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "015862cf-a450-48fa-b987-f993729436a6",
+    "file_name": "TCGA-97-7552-01Z-00-DX1.a5ab8959-ff7a-4287-b014-87439957fb67.svs",
+    "md5sum": "648eb0ab86e3b1c71319ed608568348d",
+    "file_size": 464874613,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "1b110eb4-a01d-4c50-ba18-77da4dedd549",
+        "entity_submitter_id": "TCGA-97-7552-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "017ac656-1ea8-4a42-8f81-22b8958217cd",
+    "file_name": "TCGA-AX-A06L-01Z-00-DX2.06825E45-9535-4F15-B66A-64446EA1CB50.svs",
+    "md5sum": "203ff2b0c3a3b6c68c3197f79c626066",
+    "file_size": 1500737692,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "f4a7f2ff-be76-48d3-9f59-9223db33680e",
+        "entity_submitter_id": "TCGA-AX-A06L-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "018a03a5-5f32-4cd3-966e-6110398cbfc2",
+    "file_name": "TCGA-B5-A1MZ-01Z-00-DX1.E652BC81-D2D3-4FFB-A1BD-74829382339A.svs",
+    "md5sum": "516ce8451e48939e369516e430118be9",
+    "file_size": 2712505215,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "838fcc2b-48b4-49dd-b8fc-ff27bbd16b17",
+        "entity_submitter_id": "TCGA-B5-A1MZ-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  },
+  {
+    "file_id": "018c8234-7315-4660-8a97-655217d0c79f",
+    "file_name": "TCGA-E7-A6ME-01Z-00-DX1.114098C0-6CD9-4240-B8F4-C2E6D86A6868.svs",
+    "md5sum": "de0b41c9b555f4cab082e64cd1c3e03f",
+    "file_size": 1564995049,
+    "data_format": "SVS",
+    "access": "open",
+    "experimental_strategy": "Diagnostic Slide",
+    "associated_entities": [
+      {
+        "case_id": "9f00847c-bd1f-4cd0-99f9-d51d638c0795",
+        "entity_submitter_id": "TCGA-E7-A6ME-01Z",
+        "entity_type": "sample"
+      }
+    ]
+  }
+]

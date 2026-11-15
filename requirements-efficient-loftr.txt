@@ -1,0 +1,6 @@
+# Optional inference-only dependencies for pyrafault.verify.efficient_loftr.
+# PyTorch and NumPy/Pillow already come from the main PyraFault environment.
+einops==0.8.1
+kornia==0.8.3
+loguru==0.7.3
+yacs==0.1.8

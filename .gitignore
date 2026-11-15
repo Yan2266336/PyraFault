@@ -1,0 +1,63 @@
+# Raw WSI download — about 13 GB of source pixels, never versioned.
+gdc_download_*/
+
+# Derived data: coordinates are canonical, everything under data/ is reproducible.
+# I9: the exception. benchmark_manifest.json (sha256 + row count of every frozen
+# 01_benchmark parquet, written by stage 09) IS committed -- it's what lets anyone
+# verify a copy of data/ (itself gitignored and unversioned) against the commit that
+# claims to have produced it. `data/*` (not `data/`) is required here: a parent
+# directory that is itself ignored cannot have its children re-included by a later
+# negation pattern.
+data/*
+!data/01_benchmark/
+data/01_benchmark/*
+!data/01_benchmark/benchmark_manifest.json
+
+# A second cohort gets its own data root (PYRAFAULT_DATA=data_my_cohort), and those
+# are derived data too -- with the same exception as data/ above: the manifest is
+# committed so a copy of the tables can be verified against the commit claiming to
+# have produced them. The magnification freezes this repo ships are data roots like
+# any other, which is the point: nothing about them is a special case.
+data_*/*
+!data_*/01_benchmark/
+data_*/01_benchmark/*
+!data_*/01_benchmark/benchmark_manifest.json
+
+# SLURM logs
+logs/
+
+# Generated per-run from slides.parquet (stage 01); not canonical.
+slurm/slides.txt
+
+# Subagent-driven-development scratch
+.superpowers/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.ipynb_checkpoints/
+.venv-ncc/
+.DS_Store
+
+# Local smoke runs and downloaded results are not benchmark metadata.
+data_ncc_smoke*/
+msi-results/
+
+# External inference assets: ship their URLs, revisions and hashes, not binaries.
+/models/
+/third_party/
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+
+# Collaborator hand-offs: an archive of a data root someone else built, unpacked into
+# data_lung/ on arrival. The tables it carries are theirs to version, not this repo.
+Data_otherRun/
+
+# API 凭据：永远不提交，也不进 GitHub 镜像
+.env
+.env.*
+!.env.example

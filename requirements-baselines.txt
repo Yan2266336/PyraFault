@@ -1,0 +1,5 @@
+# Optional, inference-only extras. Install the main PyraFault environment first.
+# Keep its working PyTorch/torchvision pair; this file intentionally does not select
+# a CPU/CUDA wheel or upgrade either package. See BASELINE_HANDOVER.zh-CN.md.
+# No training stack, xFormers, model weights or external source checkouts here.
+-r requirements-efficient-loftr.txt

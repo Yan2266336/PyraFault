@@ -1,0 +1,139 @@
+# PyraFault — the 10-slide worked example.
+#
+# Every parameter here is the one the released five-cohort benchmark was built with.
+# The only thing that is smaller is the input: ten TCGA diagnostic slides instead of
+# 2,920, and `splits` sized for ten cases instead of hundreds. Running the ten stages
+# against this file reproduces the construction procedure end to end on about 13 GB of
+# source pixels, and the tables it writes have the same schema as the released ones.
+#
+# Two values are worth knowing about before the first run:
+#
+#   visual_sampling.extractor: uni
+#     MahmoodLab/UNI is what the paper used, and it is a gated Hugging Face repository.
+#     Accept its licence while signed in to the account whose token is in $HF_TOKEN, or
+#     set this to `dinov2` to use an ungated extractor instead. Stage 05 fails with the
+#     switch spelled out if the token cannot reach UNI, so this is not a silent fallback.
+#
+#   splits: dev 6 / calibration 2 / test 2
+#     Assignment is by case, so ten slides from ten distinct cases give ten split units.
+#     A different slide list needs these three numbers changed to match.
+#
+# `source.gdc_dir` is relative to the working directory, so nothing here is specific to
+# one machine. See README.md for the download step that fills it.
+
+seed: 20260812
+pipeline_version: v1
+extraction_version: v1
+source:
+  gdc_dir: data/00_source/gdc_download
+  manifest: gdc_manifest.*.txt
+  sample_sheet: gdc_sample_sheet.*.tsv
+  metadata_json: metadata.cart.*.json
+  verify_md5: true
+slide:
+  require_mpp: true
+  max_mpp_l0: 0.5
+thumbnail:
+  target_mpp: 8.0
+tissue:
+  method: hsv_saturation_otsu
+  sat_floor: 0.08
+  gray_max: 235
+  close_radius_um: 64
+  open_radius_um: 32
+  min_component_area_um2: 250000
+context:
+  target_mpp: 2.0
+  size_px: 2048
+  stride_frac: 0.25
+  min_tissue_fraction: 0.5
+  num_per_slide: 30
+  selection: spatial_fps
+query:
+  target_mpp: 0.5
+  size_px: 512
+  stride_frac: 1.0
+  boundary_margin_frac: 1.0
+  min_tissue_fraction: 0.8
+  num_per_context: 5
+quality:
+  blur_var_flag: 20.0
+  blur_var_exclude: 5.0
+  mean_intensity_flag:
+  - 25
+  - 235
+  mean_intensity_exclude:
+  - 10
+  - 250
+  pen_mark_flag_frac: 0.02
+visual_sampling:
+  enabled: true
+  extractor: uni
+  fallback_extractor: dinov2
+  strategy: cluster_stratified
+  n_clusters: 5
+  self_similarity_k: 16
+features:
+  uni:
+    hf_repo: MahmoodLab/UNI
+    timm_model: hf-hub:MahmoodLab/UNI
+    input_size: 224
+  dinov2:
+    hf_repo: facebook/dinov2-base
+    input_size: 224
+  batch_size: 64
+  device: auto
+faults:
+  clean: true
+  adjacent_drift:
+    enabled: true
+    normalize_by: query_side
+    severity_bands:
+      small:
+      - 0.25
+      - 0.75
+      medium:
+      - 0.75
+      - 2.0
+      large:
+      - 2.0
+      - 6.0
+    balance: stratified
+    max_theta_retries: 32
+  random_same_context:
+    enabled: true
+    max_iou_with_true: 0.0
+    min_center_dist_query_widths: 1.5
+  hard_same_slide:
+    enabled: true
+    pool: context
+    max_iou_with_true: 0.0
+    min_center_dist_query_widths: 1.5
+    top_k: 1
+  out_of_context:
+    enabled: true
+    selection: both
+    min_gap_context_widths: 0.0
+  out_of_slide:
+    enabled: true
+    selection: both
+splits:
+  level: case
+  dev: 6
+  calibration: 2
+  test: 2
+  min_contexts_per_slide:
+    test: 15
+    calibration: 15
+  max_reshuffle_attempts: 1000
+storage:
+  canonical: metadata_first
+  materialize_pilot_png: true
+  large_scale_patch_format: sharded_tar
+coordinates:
+  canonical_frame: level0
+qc:
+  overlays_per_slide: 25
+  verify_source_md5: true
+  verify_materialized_hash: true
+  reconstruction_sample_frac: 0.05
